@@ -1,5 +1,9 @@
 import { createGlobalStyle } from 'styled-components';
 
+export const defaultColors = {
+  rocketSeatPurple: '#7159c1',
+};
+
 export default createGlobalStyle`
   * {
     padding:0;
@@ -17,4 +21,7 @@ export default createGlobalStyle`
     -webkit-font-smoothing: antialiased !important;
   }
 
+  body {
+    background: ${defaultColors.rocketSeatPurple};
+  }
 `;
