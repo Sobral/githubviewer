@@ -23,6 +23,7 @@ export const Container = styled.div`
 export const Form = styled.form`
   display: flex;
   margin-top: 10px;
+
   input {
     flex: 1;
     border: 1px solid #eee;
@@ -44,4 +45,13 @@ export const SubmitButton = styled.button.attrs({
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+export const RepoContainer = styled.div`
+  max-width: 750px;
+  background: #fff;
+  border-radius: 2px;
+  box-shadow: 0 0 20 rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  margin: 10px auto;
 `;
