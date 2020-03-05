@@ -8,6 +8,8 @@ import {
   RepoContainer,
 } from '../../styles/MainStyle';
 
+import api from '../../services/api';
+
 class Main extends Component {
   constructor() {
     super();
@@ -20,15 +22,19 @@ class Main extends Component {
     });
   };
 
-  handleSubmit = e => {
+  handleSubmit = async e => {
     e.preventDefault();
     const { newRepoName, repositories } = this.state;
 
-    const newRepositories = [...repositories, newRepoName];
+    const response = await api.get(`/repos/${newRepoName}`);
+
+    const data = {
+      name: response.data.full_name,
+    };
 
     this.setState({
       newRepoName: '',
-      repositories: newRepositories,
+      repositories: [...repositories, data],
     });
   };
 
@@ -44,6 +50,7 @@ class Main extends Component {
 
           <Form onSubmit={this.handleSubmit}>
             <input
+              autoComplete="off"
               onChange={this.handleChange}
               type="text"
               name="repositorio"
@@ -56,9 +63,11 @@ class Main extends Component {
             </SubmitButton>
           </Form>
         </Container>
-
         {repositories.map(repository => (
-          <RepoContainer key={repository}> {repository} </RepoContainer>
+          <RepoContainer key={repository.name}>
+            {repository.name}
+            <span>Detalhes</span>
+          </RepoContainer>
         ))}
       </>
     );

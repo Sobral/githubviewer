@@ -54,4 +54,7 @@ export const RepoContainer = styled.div`
   box-shadow: 0 0 20 rgba(0, 0, 0, 0.1);
   padding: 30px;
   margin: 10px auto;
+
+  display: flex;
+  justify-content: space-between;
 `;
