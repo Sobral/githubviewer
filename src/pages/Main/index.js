@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FaGithub, FaPlus } from 'react-icons/fa';
+import { FaGithub } from 'react-icons/fa';
 
 import {
   Container,
@@ -9,37 +9,49 @@ import {
 } from '../../styles/MainStyle';
 
 import api from '../../services/api';
+import SubmitIcon from '../../components/SubmitIcon';
 
 class Main extends Component {
   constructor() {
     super();
-    this.state = { newRepoName: '', repositories: [] };
+    this.state = {
+      newRepoName: '',
+      repositories: [],
+      loading: false,
+      emptyInput: true,
+    };
   }
 
   handleChange = e => {
+    const emptyInput = e.target.value.trim().length === 0;
+
     this.setState({
       newRepoName: e.target.value,
+      emptyInput,
     });
   };
 
   handleSubmit = async e => {
     e.preventDefault();
+    this.setState({ loading: true });
     const { newRepoName, repositories } = this.state;
 
     const response = await api.get(`/repos/${newRepoName}`);
 
     const data = {
       name: response.data.full_name,
+      html_url: response.data.html_url,
     };
 
     this.setState({
       newRepoName: '',
       repositories: [...repositories, data],
+      loading: false,
     });
   };
 
   render() {
-    const { newRepoName, repositories } = this.state;
+    const { newRepoName, repositories, loading, emptyInput } = this.state;
 
     return (
       <>
@@ -58,15 +70,15 @@ class Main extends Component {
               value={newRepoName}
             />
 
-            <SubmitButton>
-              <FaPlus color="#FFF" size={14} />
+            <SubmitButton loading={loading.toString()} emptyInput={emptyInput}>
+              <SubmitIcon loading={loading} />
             </SubmitButton>
           </Form>
         </Container>
         {repositories.map(repository => (
           <RepoContainer key={repository.name}>
             {repository.name}
-            <span>Detalhes</span>
+            <a href={repository.html_url}>Detalhes</a>
           </RepoContainer>
         ))}
       </>

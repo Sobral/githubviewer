@@ -1,6 +1,20 @@
-import styled from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 
 import { defaultColors } from './global';
+
+// I know, it is a crazy idea, but since I didnt find a good example to solve it
+// I decide to deal with it this way
+// https://github.com/styled-components/styled-components/issues/1198
+const forcingBool = { false: false, true: true };
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to{
+    transform: rotate(360deg);
+  }
+`;
 
 export const Container = styled.div`
   max-width: 750px;
@@ -33,9 +47,10 @@ export const Form = styled.form`
   }
 `;
 
-export const SubmitButton = styled.button.attrs({
+export const SubmitButton = styled.button.attrs(props => ({
   type: 'submit',
-})`
+  disabled: forcingBool[props.loading] || props.emptyInput,
+}))`
   background: ${defaultColors.rocketSeatPurple};
   border: 0;
   padding: 0 15px;
@@ -45,6 +60,19 @@ export const SubmitButton = styled.button.attrs({
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  ${props =>
+    forcingBool[props.loading] &&
+    css`
+      svg {
+        animation: ${rotate} 2s linear infinite;
+      }
+    `}
 `;
 
 export const RepoContainer = styled.div`
