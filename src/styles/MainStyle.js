@@ -85,4 +85,8 @@ export const RepoContainer = styled.div`
 
   display: flex;
   justify-content: space-between;
+
+  a {
+    text-decoration: none;
+  }
 `;
