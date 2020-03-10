@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { FaGithub } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 import {
   Container,
@@ -94,7 +95,9 @@ class Main extends Component {
         {repositories.map(repository => (
           <RepoContainer key={repository.name}>
             {repository.name}
-            <a href={repository.html_url}>Detalhes</a>
+            <Link to={`/repository/${encodeURIComponent(repository.name)}`}>
+              Detalhes
+            </Link>
           </RepoContainer>
         ))}
       </>
